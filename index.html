@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kuis Jejak Budaya - Kelas 6</title>
+<style>
+*{box-sizing:border-box} body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#e8f5e9,#fff8e1);color:#263238}
+.wrap{max-width:850px;margin:auto;padding:18px}.header{background:#2e7d32;color:white;padding:24px;border-radius:20px;text-align:center;box-shadow:0 6px 18px #0002}
+.header h1{margin:0 0 8px;font-size:27px}.header p{margin:0;font-size:15px}
+.card{background:white;margin:16px 0;padding:18px;border-radius:16px;box-shadow:0 3px 12px #0001}
+.q{font-weight:700;line-height:1.5;margin:0 0 12px}.opt{display:block;border:2px solid #e0e0e0;border-radius:11px;padding:11px;margin:8px 0;cursor:pointer;background:#fafafa}.opt:hover{background:#f1f8e9;border-color:#81c784}
+button{width:100%;padding:15px;border:0;border-radius:13px;background:#2e7d32;color:white;font-size:18px;font-weight:700;cursor:pointer}
+button:hover{background:#1b5e20}.result{display:none;text-align:center;background:white;padding:20px;margin-top:18px;border-radius:16px;font-size:21px;font-weight:bold}
+.note{font-size:13px;color:#607d8b;text-align:center;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="header">
+<h1>🌿 Kuis Jejak Budaya</h1>
+<p>Bahasa/IPS Terpadu Kelas 6 • Materi Kearifan Lokal dan Warisan Budaya</p>
+</div>
+<div id="quiz"></div>
+<button onclick="finish()">Selesai & Lihat Nilai</button>
+<div id="result" class="result"></div>
+<div class="note">20 soal pilihan ganda • Pilih satu jawaban terbaik</div>
+</div>
+<script>
+const questions=[
+["Apa yang dimaksud dengan kearifan lokal?",["Nilai-nilai luhur yang terdapat dalam budaya dan tradisi yang diwariskan secara turun-temurun","Kegiatan modern yang hanya dilakukan di sekolah","Aturan yang dibuat untuk satu keluarga saja","Teknologi baru yang digunakan masyarakat"],0],
+["Kearifan lokal tidak hanya berupa benda atau upacara adat. Di dalamnya juga terdapat …",["filosofi, pemikiran, dan ajaran tentang kebaikan, kebijaksanaan, serta kepedulian","peraturan lalu lintas dan teknologi","permainan digital dan media sosial","kegiatan ekonomi dan perdagangan"],0],
+["Kearifan lokal berperan penting dalam membentuk …",["identitas suatu daerah","jumlah penduduk","cuaca suatu wilayah","jenis kendaraan"],0],
+["Manakah yang termasuk bentuk warisan budaya?",["Pakaian adat","Aplikasi permainan","Kendaraan modern","Peralatan elektronik"],0],
+["Yang termasuk warisan budaya berupa kegiatan adalah …",["upacara adat","telepon pintar","kendaraan listrik","komputer"],0],
+["Contoh warisan budaya berupa makanan adalah …",["makanan khas daerah","mesin pertanian","pakaian olahraga","alat komunikasi"],0],
+["Manakah yang termasuk warisan budaya berupa permainan?",["Permainan tradisional","Permainan daring saja","Permainan mesin modern","Permainan komputer"],0],
+["Larangan atau pantangan adat merupakan salah satu bentuk …",["warisan budaya","teknologi modern","kegiatan ekonomi","sarana transportasi"],0],
+["Masyarakat bekerja bersama untuk mencapai tujuan bersama merupakan nilai …",["kerja sama dan gotong royong","persaingan","individualisme","ketergantungan"],0],
+["Penyelesaian masalah dengan berdiskusi dan mengambil keputusan bersama disebut …",["musyawarah","persaingan","perdagangan","perayaan"],0],
+["Menghormati orang lain meskipun memiliki budaya dan kebiasaan berbeda menunjukkan nilai …",["saling menghargai","mementingkan diri sendiri","perselisihan","persaingan"],0],
+["Tradisi yang dilakukan secara turun-temurun sebagai bentuk penghargaan kepada orang yang lebih tua merupakan nilai …",["menghormati leluhur","persaingan","keuntungan pribadi","perubahan budaya"],0],
+["Banyak kearifan lokal mengajarkan manusia untuk menjaga hubungan dengan …",["alam","kendaraan","teknologi","perdagangan"],0],
+["Tradisi dan budaya yang menjadi ciri khas dan membedakan suatu daerah dengan daerah lainnya menunjukkan nilai …",["identitas daerah","persaingan daerah","perubahan iklim","kegiatan ekonomi"],0],
+["Mengapa budaya dapat terus bertahan dalam masyarakat?",["Karena diwariskan secara turun-temurun dan masih digunakan dalam kehidupan masyarakat","Karena selalu sama dan tidak boleh berubah","Karena hanya dilakukan oleh orang tua","Karena tidak pernah digunakan lagi"],0],
+["Selain diwariskan turun-temurun, budaya dapat bertahan dengan cara …",["beradaptasi dengan perkembangan zaman dan teknologi","menolak semua perubahan","menghilangkan tradisi lama","hanya dilakukan saat liburan"],0],
+["Contoh adaptasi budaya dengan perkembangan zaman adalah …",["kain ulos berkembang menjadi bagian dari dunia mode","menghapus semua pakaian adat","melarang teknologi digunakan","menghentikan semua permainan tradisional"],0],
+["Kebaya yang dimodifikasi menjadi kebaya modern menunjukkan bahwa budaya dapat …",["beradaptasi dengan perkembangan zaman","hilang karena perubahan","hanya digunakan dalam upacara","tidak boleh mengalami perubahan"],0],
+["Penggunaan teknologi untuk memperkenalkan budaya kepada masyarakat luas menunjukkan bahwa …",["teknologi dapat membantu melestarikan budaya","teknologi selalu merusak budaya","budaya tidak membutuhkan generasi muda","tradisi harus dihentikan"],0],
+["Sikap yang tepat terhadap budaya dan kearifan lokal adalah …",["mengenal, menghargai, mempraktikkan nilai-nilai baik, dan ikut melestarikannya","mengabaikan budaya daerah","menganggap budaya daerah tidak penting","hanya mempelajari budaya asing"],0]
+];
+
+let answers={};
+function render(){
+ const quiz=document.getElementById('quiz');
+ quiz.innerHTML=questions.map((q,i)=>`
+ <div class="card">
+ <p class="q">${i+1}. ${q[0]}</p>
+ ${q[1].map((o,j)=>`<label class="opt"><input type="radio" name="q${i}" value="${j}" onchange="answers[${i}]=${j}"> ${String.fromCharCode(65+j)}. ${o}</label>`).join('')}
+ </div>`).join('');
+}
+function finish(){
+ let score=0, blank=0;
+ questions.forEach((q,i)=>{if(answers[i]===undefined) blank++; else if(answers[i]===q[2]) score++;});
+ const nilai=Math.round(score/questions.length*100);
+ const r=document.getElementById('result');
+ r.style.display='block';
+ r.innerHTML=`🎉 Nilai kamu: <strong>${nilai}</strong><br>Jawaban benar: ${score} dari ${questions.length}${blank?`<br><small>Belum dijawab: ${blank}</small>`:''}`;
+ window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+render();
+</script>
+</body>
+</html>
